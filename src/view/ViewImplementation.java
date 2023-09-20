@@ -6,8 +6,11 @@
 package view;
 
 import model.ConvocatoriaExamen;
+import model.Dificultad;
 import model.Enunciado;
 import model.UnidadDidactica;
+import utils.Util;
+
 
 /**
  *
@@ -17,17 +20,43 @@ public class ViewImplementation implements View{
 
     @Override
     public UnidadDidactica crearUnidadDidactica() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UnidadDidactica ud = new UnidadDidactica(null,null,null,null);
+        System.out.println("Introduzca el acronimo");
+        ud.setAcronimo(Util.introducirCadena());
+        System.out.println("Introduzca el titulo");
+        ud.setTitulo(Util.introducirCadena());
+        System.out.println("Introduzca la evaluación");
+        ud.setEvaluacion(Util.introducirCadena());
+        System.out.println("Introduzca la descripción");
+        ud.setDescripcion(Util.introducirCadena());
+        return ud;
     }
 
     @Override
     public ConvocatoriaExamen crearConvocatoria() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ConvocatoriaExamen conv = new ConvocatoriaExamen(null,null,null,null,null);
+        System.out.println("Introduzca la convocatoria");
+        conv.setConvocatoria(Util.introducirCadena());
+        System.out.println("Introduzca la descripción");
+        conv.setDescipcion(Util.introducirCadena());
+        System.out.println("Introduzca la Fecha");
+        conv.setFecha(Util.leerFechaAMD());
+        System.out.println("Introduzca el curso");
+        conv.setCurso(Util.introducirCadena());
+        return conv;
     }
 
     @Override
     public Enunciado crearEnunciado() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Enunciado enun = new Enunciado(null,null,null,null);
+        System.out.println("Introduzca la descripción");
+        enun.setDescripcion(Util.introducirCadena());
+        System.out.println("Introduzca la descripción");
+        enun.setNivel(Dificultad.valueOf(Util.introducirCadena()));
+        enun.setDisponible(Util.esBoolean("Esta disponible el enunciado?"));
+        System.out.println("Introduzca el ruta");
+        enun.setRuta(Util.introducirCadena());
+        return enun;
     }
 
     @Override
