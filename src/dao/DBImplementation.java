@@ -24,7 +24,6 @@ import model.UnidadDidactica;
 public class DBImplementation implements Dao {
 
     /*    Attributes    */
-
     private Connection con;
     private PreparedStatement ptmt;
     private ResultSet rset;
@@ -65,12 +64,57 @@ public class DBImplementation implements Dao {
 
     @Override
     public void crearConvocatoria(ConvocatoriaExamen conv) {
+        /*
+        Este metodo es vacio, ya que no se guardan convocatorias en la BD
+         */
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void crearEnunciado(Enunciado enunciado, Integer idUD) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /*
+        El metodo deberia recoger un ArrayList de Integers que contenga las ids de las UDs a las que pertenece. O crear un metodo asignarUD.
+         */
+        
+        con = openConnection();
+        
+        try {
+            ptmt = con.prepareStatement("INSERT INTO Enunciado(descripcion_Enunciado, nivel, disponible, ruta) VALUES(?,?,?,?);");
+            
+            ptmt.setString(1, enunciado.getDescripcion());
+            ptmt.setString(2, enunciado.getNivel().name());
+            ptmt.setBoolean(3, enunciado.getDisponible());
+            ptmt.setString(4, enunciado.getRuta());
+            
+            ptmt.executeUpdate();
+            
+            ptmt = con.prepareStatement("SELECT id_Enunciado from Enunciado where ruta = '?'");
+            ptmt.setString(1, enunciado.getRuta());
+            rset=ptmt.executeQuery();
+            while(rset.next()){
+                if(rset.getInt(1)!=0){
+                    enunciado.setId(rset.getInt(1));
+                }
+            }
+            
+            if(!enunciado.getId().equals(null)){
+                ptmt = con.prepareStatement("INSERT INTO Enunciado_UD VALUES (?,?)");
+                ptmt.setInt(1, enunciado.getId());
+                ptmt.setInt(2, idUD);
+            
+                ptmt.executeUpdate();
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                ptmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        closeConnection(con);
     }
 
     @Override
