@@ -5,8 +5,6 @@
  */
 package dao;
 
-import java.util.ArrayList;
-
 import model.ConvocatoriaExamen;
 import model.Enunciado;
 import model.UnidadDidactica;
@@ -19,38 +17,32 @@ public class DBImplementation implements Dao{
 
     @Override
     public void crearUnidadDidactica(UnidadDidactica ud) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'crearUnidadDidactica'");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void crearConvocatoria(ConvocatoriaExamen conv) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'crearConvocatoria'");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void crearEnunciado(Enunciado enunciado, Integer idUD) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'crearEnunciado'");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ArrayList<Enunciado> buscarEnunciado() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarEnunciado'");
+    public Enunciado buscarEnunciado(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ArrayList<ConvocatoriaExamen> buscarConvocatoria() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarConvocatoria'");
+    public ConvocatoriaExamen buscarConvocatoria(String convocatoria) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ArrayList<UnidadDidactica> buscarUnidad() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarUnidad'");
+    public UnidadDidactica buscarUnidad(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }

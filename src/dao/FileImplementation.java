@@ -87,7 +87,7 @@ public class FileImplementation implements Dao {
                         conv = aux;
                     }
                 }
-
+                ois.close();
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
