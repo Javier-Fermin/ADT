@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.Set;
 import model.ConvocatoriaExamen;
 import model.Enunciado;
 import model.UnidadDidactica;
@@ -16,7 +17,9 @@ import model.UnidadDidactica;
 public interface Dao {
     public void crearUnidadDidactica(UnidadDidactica ud);
     public void crearConvocatoria(ConvocatoriaExamen conv);
-    public void crearEnunciado(Enunciado enunciado, Integer idUD);
+    public void crearEnunciado(Enunciado enunciado);
+    public void vincularUDsEnunciado(Set <UnidadDidactica> uds);
+    public void vincularConvEnunciado(ConvocatoriaExamen conv);
     
     public Enunciado buscarEnunciado(Integer id);
     public ConvocatoriaExamen buscarConvocatoria(String convocatoria);

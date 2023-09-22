@@ -20,4 +20,8 @@ public interface View {
     
     public void mostrarEnunciado(Enunciado enunciado);
     public void mostrarConvocatoria(ConvocatoriaExamen conv);
+    
+    public Integer buscarEnunciado();
+    public String buscarConvocatoria();
+    public Integer buscarUnidad();
 }
