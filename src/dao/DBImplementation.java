@@ -54,6 +54,7 @@ public class DBImplementation implements Dao {
             Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                ptmt.clearParameters();
                 ptmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,7 +113,6 @@ public class DBImplementation implements Dao {
 
                 ptmt.executeUpdate();
             }
-            
 
         } catch (SQLException ex) {
             Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
@@ -127,9 +127,17 @@ public class DBImplementation implements Dao {
         closeConnection(con);
     }
 
+    /**
+     * buscarEnunciado: Metodo que recoge de la base de datos los atributos de
+     * un enunciado usando como clave de busqueda su id. Estos atributos se
+     * guardan en un objeto Enunciado que mas tarde sera devuelto por el metodo
+     *
+     * @param id
+     * @return Enunciado enunciado
+     */
     @Override
     public Enunciado buscarEnunciado(Integer id) {
-        Enunciado enunciado=null;
+        Enunciado enunciado = null;
         con = openConnection();
 
         try {
@@ -140,16 +148,15 @@ public class DBImplementation implements Dao {
             ptmt = con.prepareStatement("SELECT * from Enunciado where id_Enunciado =?;");
             ptmt.setInt(1, id);
             rset = ptmt.executeQuery();
-            
+
             while (rset.next()) {
-                enunciado=new Enunciado(null,null,null,null);
+                enunciado = new Enunciado(null, null, null, null);
                 enunciado.setId(rset.getInt("id_Enunciado"));
                 enunciado.setDescripcion(rset.getString("descripcion_Enunciado"));
                 enunciado.setNivel(Dificultad.valueOf(rset.getString("nivel")));
                 enunciado.setDisponible(rset.getBoolean("disponible"));
                 enunciado.setRuta(rset.getString("ruta"));
             }
-            
 
         } catch (SQLException ex) {
             Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
@@ -163,7 +170,12 @@ public class DBImplementation implements Dao {
         }
         closeConnection(con);
         
-        return enunciado;
+        if(enunciado.equals(null)){
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        else{
+            return enunciado;
+        }
     }
 
     @Override
@@ -171,10 +183,19 @@ public class DBImplementation implements Dao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * buscarUnidad: Metodo que recoge de la base de datos los atributos de
+     * una unidad didactica usando como clave de busqueda su id. Estos atributos se
+     * guardan en un objeto UnidadDidactica que mas tarde sera devuelto por el metodo
+     *
+     * @param id
+     * @return UnidadDidactica ud
+     */
+    
     @Override
     public UnidadDidactica buscarUnidad(Integer id) {
-        UnidadDidactica ud=null;
-        
+        UnidadDidactica ud = null;
+
         con = openConnection();
 
         try {
@@ -185,16 +206,15 @@ public class DBImplementation implements Dao {
             ptmt = con.prepareStatement("SELECT * from UnidadDidactica where id_UD =?;");
             ptmt.setInt(1, id);
             rset = ptmt.executeQuery();
-            
+
             while (rset.next()) {
-                ud=new UnidadDidactica(null,null,null,null);
+                ud = new UnidadDidactica(null, null, null, null);
                 ud.setId(rset.getInt("id_UD"));
                 ud.setAcronimo(rset.getString("nivel"));
                 ud.setTitulo(rset.getString("titulo"));
                 ud.setEvaluacion(rset.getString("evaluacion"));
-                ud.setDescripcion(rset.getString("descripcion_UD"));                
+                ud.setDescripcion(rset.getString("descripcion_UD"));
             }
-            
 
         } catch (SQLException ex) {
             Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,7 +228,13 @@ public class DBImplementation implements Dao {
         }
         closeConnection(con);
         
-        return ud;
+        if(ud.equals(null)){
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        else{
+           return ud; 
+        }
+        
     }
 
     /**
@@ -248,4 +274,3 @@ public class DBImplementation implements Dao {
     }
 
 }
-
