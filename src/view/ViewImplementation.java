@@ -61,12 +61,28 @@ public class ViewImplementation implements View{
 
     @Override
     public void mostrarEnunciado(Enunciado enunciado) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("ID");
+        System.out.println(enunciado.getId());
+        System.out.println("Descripcion");
+        System.out.println(enunciado.getDescripcion());
+        System.out.println("Nivel");
+        System.out.println(enunciado.getNivel());
+        System.out.println("Disponible");
+        System.out.println(enunciado.getDisponible());
+        System.out.println("Ruta");
+        System.out.println(enunciado.getRuta());
     }
 
     @Override
     public void mostrarConvocatoria(ConvocatoriaExamen conv) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Convocatoria");
+        System.out.println(conv.getConvocatoria());
+        System.out.println("Descripcion");
+        System.out.println(conv.getDescipcion());
+        System.out.println("Fecha");
+        System.out.println(conv.getFecha());
+        System.out.println("Curso");
+        System.out.println(conv.getCurso());
     }
     
 }
