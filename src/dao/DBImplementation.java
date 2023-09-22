@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.ConvocatoriaExamen;
+import model.Dificultad;
 import model.Enunciado;
 import model.UnidadDidactica;
 
@@ -75,40 +76,49 @@ public class DBImplementation implements Dao {
         /*
         El metodo deberia recoger un ArrayList de Integers que contenga las ids de las UDs a las que pertenece. O crear un metodo asignarUD.
          */
-        
+
         con = openConnection();
-        
+
         try {
+
+            /*
+                Almacenamos el enunciado sin id en la bd. Cuando se almacena, se le asigna su id
+             */
             ptmt = con.prepareStatement("INSERT INTO Enunciado(descripcion_Enunciado, nivel, disponible, ruta) VALUES(?,?,?,?);");
-            
+
             ptmt.setString(1, enunciado.getDescripcion());
             ptmt.setString(2, enunciado.getNivel().name());
             ptmt.setBoolean(3, enunciado.getDisponible());
             ptmt.setString(4, enunciado.getRuta());
-            
+
             ptmt.executeUpdate();
-            
-            ptmt = con.prepareStatement("SELECT id_Enunciado from Enunciado where ruta = '?'");
-            ptmt.setString(1, enunciado.getRuta());
-            rset=ptmt.executeQuery();
-            while(rset.next()){
-                if(rset.getInt(1)!=0){
-                    enunciado.setId(rset.getInt(1));
-                }
+
+            /*
+                Recogemos el id del enunciado que se acaba de almacenar. Al ser el ultimo en ser agregado, su id sera la mas alta
+             */
+            ptmt = con.prepareStatement("SELECT * from Enunciado where id_Enunciado =(SELECT max(id) FROM Enunciado);");
+            rset = ptmt.executeQuery();
+            while (rset.next()) {
+                enunciado.setId(rset.getInt("id_Enunciado"));
             }
-            
-            if(!enunciado.getId().equals(null)){
+
+            /*
+                Tras comprobar que se ha recogido el id, se guarda el id del enunciado y de la ud en la tabla relacion
+             */
+            if (!enunciado.getId().equals(null)) {
                 ptmt = con.prepareStatement("INSERT INTO Enunciado_UD VALUES (?,?)");
                 ptmt.setInt(1, enunciado.getId());
                 ptmt.setInt(2, idUD);
-            
+
                 ptmt.executeUpdate();
             }
             
+
         } catch (SQLException ex) {
             Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
+                rset.close();
                 ptmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,7 +129,41 @@ public class DBImplementation implements Dao {
 
     @Override
     public Enunciado buscarEnunciado(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Enunciado enunciado=null;
+        con = openConnection();
+
+        try {
+
+            /*
+                Recogemos el enunciado por su id
+             */
+            ptmt = con.prepareStatement("SELECT * from Enunciado where id_Enunciado =?;");
+            ptmt.setInt(1, id);
+            rset = ptmt.executeQuery();
+            
+            while (rset.next()) {
+                enunciado=new Enunciado(null,null,null,null);
+                enunciado.setId(rset.getInt("id_Enunciado"));
+                enunciado.setDescripcion(rset.getString("descripcion_Enunciado"));
+                enunciado.setNivel(Dificultad.valueOf(rset.getString("nivel")));
+                enunciado.setDisponible(rset.getBoolean("disponible"));
+                enunciado.setRuta(rset.getString("ruta"));
+            }
+            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rset.close();
+                ptmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        closeConnection(con);
+        
+        return enunciado;
     }
 
     @Override
@@ -129,7 +173,42 @@ public class DBImplementation implements Dao {
 
     @Override
     public UnidadDidactica buscarUnidad(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UnidadDidactica ud=null;
+        
+        con = openConnection();
+
+        try {
+
+            /*
+                Recogemos el enunciado por su id
+             */
+            ptmt = con.prepareStatement("SELECT * from UnidadDidactica where id_UD =?;");
+            ptmt.setInt(1, id);
+            rset = ptmt.executeQuery();
+            
+            while (rset.next()) {
+                ud=new UnidadDidactica(null,null,null,null);
+                ud.setId(rset.getInt("id_UD"));
+                ud.setAcronimo(rset.getString("nivel"));
+                ud.setTitulo(rset.getString("titulo"));
+                ud.setEvaluacion(rset.getString("evaluacion"));
+                ud.setDescripcion(rset.getString("descripcion_UD"));                
+            }
+            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                rset.close();
+                ptmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        closeConnection(con);
+        
+        return ud;
     }
 
     /**
