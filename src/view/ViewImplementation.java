@@ -9,7 +9,7 @@ import model.ConvocatoriaExamen;
 import model.Dificultad;
 import model.Enunciado;
 import model.UnidadDidactica;
-import utils.Util;
+import resources.Util;
 
 
 /**
