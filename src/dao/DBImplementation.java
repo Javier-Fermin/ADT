@@ -5,6 +5,7 @@
  */
 package dao;
 
+import exceptions.EnunciadoExistsException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -51,7 +52,7 @@ public class DBImplementation implements Dao {
 
             ptmt.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            //throw new EnunciadoExistsException("El enunciado ya existe en la base de datos.");
         } finally {
             try {
                 ptmt.clearParameters();
@@ -115,7 +116,7 @@ public class DBImplementation implements Dao {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            //throw new UDExistsException("La unidad didactica ya existe en la base de datos.");
         } finally {
             try {
                 rset.close();
@@ -159,7 +160,7 @@ public class DBImplementation implements Dao {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            //throw new EnunciadoNotFoundException("No se ha encontrado el enunciado.");
         } finally {
             try {
                 rset.close();
@@ -170,12 +171,8 @@ public class DBImplementation implements Dao {
         }
         closeConnection(con);
         
-        if(enunciado.equals(null)){
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-        else{
-            return enunciado;
-        }
+        return enunciado;
+        
     }
 
     @Override
@@ -217,7 +214,7 @@ public class DBImplementation implements Dao {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            //throw new UDNotFoundException("No se ha encontrado la unidad didactica.");
         } finally {
             try {
                 rset.close();
@@ -228,13 +225,7 @@ public class DBImplementation implements Dao {
         }
         closeConnection(con);
         
-        if(ud.equals(null)){
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-        else{
-           return ud; 
-        }
-        
+        return ud;        
     }
 
     /**
