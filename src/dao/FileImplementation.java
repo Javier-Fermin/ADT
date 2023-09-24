@@ -12,6 +12,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import model.ConvocatoriaExamen;
 import model.Enunciado;
@@ -64,7 +67,7 @@ public class FileImplementation implements Dao {
     }
 
     @Override
-    public void crearEnunciado(Enunciado enunciado, Integer idUD) {
+    public void crearEnunciado(Enunciado enunciado) {
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }
@@ -108,6 +111,40 @@ public class FileImplementation implements Dao {
     public UnidadDidactica buscarUnidad(Integer id) {
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
+    }
+
+    @Override
+    public void vincularUDsEnunciado(Set<UnidadDidactica> uds) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void vincularConvEnunciado(ConvocatoriaExamen conv) {
+        File fichAux = new File("fichAux.dat");
+        if(fich.exists()){
+            try {
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fich));
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichAux));
+                for (int i = 0; i < Util.calculoFichero(fich); i++) {
+                    ConvocatoriaExamen aux = (ConvocatoriaExamen) ois.readObject();
+                    if(!aux.getConvocatoria().equalsIgnoreCase(conv.getConvocatoria())){
+                        conv = aux;
+                    }
+                    oos.writeObject(conv);
+                }
+                oos.close();
+                ois.close();
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 
 }

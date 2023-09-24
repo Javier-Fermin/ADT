@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.ConvocatoriaExamen;
@@ -72,7 +73,7 @@ public class DBImplementation implements Dao {
     }
 
     @Override
-    public void crearEnunciado(Enunciado enunciado, Integer idUD) {
+    public void crearEnunciado(Enunciado enunciado) {
         /*
         El metodo deberia recoger un ArrayList de Integers que contenga las ids de las UDs a las que pertenece. O crear un metodo asignarUD.
          */
@@ -92,28 +93,7 @@ public class DBImplementation implements Dao {
             ptmt.setString(4, enunciado.getRuta());
 
             ptmt.executeUpdate();
-
-            /*
-                Recogemos el id del enunciado que se acaba de almacenar. Al ser el ultimo en ser agregado, su id sera la mas alta
-             */
-            ptmt = con.prepareStatement("SELECT * from Enunciado where id_Enunciado =(SELECT max(id) FROM Enunciado);");
-            rset = ptmt.executeQuery();
-            while (rset.next()) {
-                enunciado.setId(rset.getInt("id_Enunciado"));
-            }
-
-            /*
-                Tras comprobar que se ha recogido el id, se guarda el id del enunciado y de la ud en la tabla relacion
-             */
-            if (!enunciado.getId().equals(null)) {
-                ptmt = con.prepareStatement("INSERT INTO Enunciado_UD VALUES (?,?)");
-                ptmt.setInt(1, enunciado.getId());
-                ptmt.setInt(2, idUD);
-
-                ptmt.executeUpdate();
-            }
             
-
         } catch (SQLException ex) {
             Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -245,6 +225,37 @@ public class DBImplementation implements Dao {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void vincularUDsEnunciado(Set<UnidadDidactica> uds) {
+        con = openConnection();
+        try {
+            Integer eId = null;
+            ptmt = con.prepareStatement("SELECT * from Enunciado where id_Enunciado =(SELECT max(id) FROM Enunciado);");
+            rset = ptmt.executeQuery();
+            while (rset.next()) {
+                eId = rset.getInt("id_Enunciado");
+            }
+            for (UnidadDidactica ud : uds) {
+                ptmt = con.prepareStatement("INSERT INTO Enunciado_UD VALUES (?,?)");
+                ptmt.setInt(1, eId);
+                ptmt.setInt(2, ud.getId());
+
+                ptmt.executeUpdate();
+            }
+            rset.close();
+            ptmt.close();
+            closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    @Override
+    public void vincularConvEnunciado(ConvocatoriaExamen conv) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
