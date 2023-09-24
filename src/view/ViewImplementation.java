@@ -85,4 +85,21 @@ public class ViewImplementation implements View{
         System.out.println(conv.getCurso());
     }
     
+    @Override
+    public Integer buscarEnunciado(){
+        System.out.println("Introduzca el id delenuncaido que desee busacar");
+        return Util.leerInt();
+    }
+
+    @Override
+    public String buscarConvocatoria(){
+        System.out.println("Introduzca el nombre de la convocatoria que desee buscar");
+        return Util.introducirCadena();
+    }
+
+    @Override
+    public Integer buscarUnidad(){
+        System.out.println("Introduzca el id de la unidad que desea buscar:");
+        return Util.leerInt();
+    }
 }
