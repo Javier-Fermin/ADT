@@ -5,6 +5,12 @@
  */
 package dao;
 
+import exceptions.ConvocatoriaExamenExistsException;
+import exceptions.ConvocatoriaExamenNotFoundException;
+import exceptions.EnunciadoExistsException;
+import exceptions.EnunciadoNotFoundException;
+import exceptions.UDExistsException;
+import exceptions.UDNotFoundException;
 import model.ConvocatoriaExamen;
 import model.Enunciado;
 import model.UnidadDidactica;
@@ -14,11 +20,11 @@ import model.UnidadDidactica;
  * @author javie
  */
 public interface Dao {
-    public void crearUnidadDidactica(UnidadDidactica ud);
-    public void crearConvocatoria(ConvocatoriaExamen conv);
-    public void crearEnunciado(Enunciado enunciado, Integer idUD);
+    public void crearUnidadDidactica(UnidadDidactica ud) throws UDExistsException;
+    public void crearConvocatoria(ConvocatoriaExamen conv) throws ConvocatoriaExamenExistsException;
+    public void crearEnunciado(Enunciado enunciado, Integer idUD) throws EnunciadoExistsException;
     
-    public Enunciado buscarEnunciado(Integer id);
-    public ConvocatoriaExamen buscarConvocatoria(String convocatoria);
-    public UnidadDidactica buscarUnidad(Integer id);
+    public Enunciado buscarEnunciado(Integer id) throws EnunciadoNotFoundException;
+    public ConvocatoriaExamen buscarConvocatoria(String convocatoria) throws ConvocatoriaExamenNotFoundException;
+    public UnidadDidactica buscarUnidad(Integer id) throws UDNotFoundException;
 }

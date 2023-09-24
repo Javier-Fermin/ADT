@@ -52,7 +52,7 @@ public class DBImplementation implements Dao {
 
             ptmt.executeUpdate();
         } catch (SQLException ex) {
-            //throw new EnunciadoExistsException("El enunciado ya existe en la base de datos.");
+            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 ptmt.clearParameters();
@@ -116,7 +116,7 @@ public class DBImplementation implements Dao {
             }
 
         } catch (SQLException ex) {
-            //throw new UDExistsException("La unidad didactica ya existe en la base de datos.");
+             Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 rset.close();
@@ -160,7 +160,7 @@ public class DBImplementation implements Dao {
             }
 
         } catch (SQLException ex) {
-            //throw new EnunciadoNotFoundException("No se ha encontrado el enunciado.");
+             Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 rset.close();
@@ -214,7 +214,7 @@ public class DBImplementation implements Dao {
             }
 
         } catch (SQLException ex) {
-            //throw new UDNotFoundException("No se ha encontrado la unidad didactica.");
+            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 rset.close();
@@ -225,7 +225,8 @@ public class DBImplementation implements Dao {
         }
         closeConnection(con);
         
-        return ud;        
+        return ud; 
+                
     }
 
     /**
