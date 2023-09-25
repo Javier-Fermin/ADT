@@ -22,7 +22,7 @@ import model.UnidadDidactica;
 
 /**
  *
- * @author javie
+ * @author javie, imanol, fran
  */
 public class DBImplementation implements Dao {
 
@@ -73,6 +73,10 @@ public class DBImplementation implements Dao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /*
+     * Recibe un objeto de tipo enunciado y loguarda en la DB
+     * @param enunciado
+     */
     @Override
     public void crearEnunciado(Enunciado enunciado) {
         /*
@@ -108,6 +112,11 @@ public class DBImplementation implements Dao {
         closeConnection(con);
     }
 
+    /*
+     * Busca un enuncaido a partir de un id de unidad didactica y devuelve un arraylist con todos los datos conseguidos
+     * @param Integer id
+     * @return Arraylist<Enunciado> Enunciados
+     */
     @Override
     public ArrayList<Enunciado> buscarEnunciado(Integer id) {
         ArrayList<Enunciado> enunciados=null;
@@ -149,10 +158,15 @@ public class DBImplementation implements Dao {
     }
 
     @Override
-    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(String convocatoria) {
+    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(Integer convocatoria) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /*
+     * Busca una unidad didactica  apartir de una id de UnidadDidactica
+     * @param Integer id
+     * @returns UnidadDidactica ud
+     */
     @Override
     public UnidadDidactica buscarUnidad(Integer id) {
         UnidadDidactica ud=null;
@@ -229,6 +243,10 @@ public class DBImplementation implements Dao {
         }
     }
 
+    /*
+     * Vincula unidades con enunciados en la base de datos en una tabla de relacion N:M
+     * @param Set<UnidadDidactica> uds
+     */
     @Override
     public void vincularUDsEnunciado(Set<UnidadDidactica> uds) {
         con = openConnection();

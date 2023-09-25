@@ -34,6 +34,10 @@ public class FileImplementation implements Dao {
                                                                        // Tools | Templates.
     }
 
+    /*
+     * Recibe una convocatoria y la guarda en un fichero
+     * @param ConvocatoriaExamen conv
+     */
     @Override
     public void crearConvocatoria(ConvocatoriaExamen conv) {
         if (!fich.exists()) {
@@ -75,6 +79,11 @@ public class FileImplementation implements Dao {
                                                                        // Tools | Templates.
     }
 
+    /*
+     * Recibe un id de enunciado y devuelve todas las convocatorias asociadas a esa unidad
+     * @param Integer convocatoria
+     * @return ArrayList<ConvocatoriaExamen> convocatorias
+     */
     @Override
     public ArrayList<ConvocatoriaExamen> buscarConvocatoria(Integer convocatoria) {
         ArrayList<ConvocatoriaExamen> convocatorias = null;
@@ -114,7 +123,10 @@ public class FileImplementation implements Dao {
     public void vincularUDsEnunciado(Set<UnidadDidactica> uds) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    /*
+     * Vincula convocatorias con enunciados
+     * @param onvocatoriaExamen conv
+     */
     @Override
     public void vincularConvEnunciado(ConvocatoriaExamen conv) {
         File fichAux = new File("fichAux.dat");
