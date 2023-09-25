@@ -102,4 +102,16 @@ public class ViewImplementation implements View{
         System.out.println("Introduzca el id de la unidad que desea buscar:");
         return Util.leerInt();
     }
+
+    @Override
+    public Integer menu() {
+        System.out.println("\n\t1. Crear UD."
+                + "\n\t2. Crear Convocatoria."
+                + "\n\t3. Crear Enunciado."
+                + "\n\t4. Consultar Enunciados."//QUE TENGAN UNA UD EN CONCRETO
+                + "\n\t5. Consultar Convocatoria."//SEGUN UN ENUNCIADO
+                + "\n\t6. Visualizar Enunciado."//DOCUMENTO
+                + "\n\t7. Exit.");
+        return Util.leerInt("Introduce un número del 1 al 7: ", 1, 7);
+    }
 }

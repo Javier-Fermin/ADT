@@ -14,6 +14,7 @@ import model.UnidadDidactica;
  * @author javie
  */
 public interface View {
+    public Integer menu();
     public UnidadDidactica crearUnidadDidactica();
     public ConvocatoriaExamen crearConvocatoria();
     public Enunciado crearEnunciado();
