@@ -23,6 +23,6 @@ public interface Dao {
     public void vincularConvEnunciado(ConvocatoriaExamen conv);
     
     public ArrayList<Enunciado> buscarEnunciado(Integer id);
-    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(String convocatoria);
+    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(Integer convocatoria);
     public UnidadDidactica buscarUnidad(Integer id);
 }
