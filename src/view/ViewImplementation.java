@@ -5,22 +5,23 @@
  */
 package view;
 
+import java.util.ArrayList;
+
 import model.ConvocatoriaExamen;
 import model.Dificultad;
 import model.Enunciado;
 import model.UnidadDidactica;
 import resources.Util;
 
-
 /**
  *
  * @author javie
  */
-public class ViewImplementation implements View{
+public class ViewImplementation implements View {
 
     @Override
     public UnidadDidactica crearUnidadDidactica() {
-        UnidadDidactica ud = new UnidadDidactica(null,null,null,null);
+        UnidadDidactica ud = new UnidadDidactica(null, null, null, null);
         System.out.println("Introduzca el acronimo");
         ud.setAcronimo(Util.introducirCadena());
         System.out.println("Introduzca el titulo");
@@ -34,7 +35,7 @@ public class ViewImplementation implements View{
 
     @Override
     public ConvocatoriaExamen crearConvocatoria() {
-        ConvocatoriaExamen conv = new ConvocatoriaExamen(null,null,null,null,null);
+        ConvocatoriaExamen conv = new ConvocatoriaExamen(null, null, null, null, null);
         System.out.println("Introduzca la convocatoria");
         conv.setConvocatoria(Util.introducirCadena());
         System.out.println("Introduzca la descripción");
@@ -48,7 +49,7 @@ public class ViewImplementation implements View{
 
     @Override
     public Enunciado crearEnunciado() {
-        Enunciado enun = new Enunciado(null,null,null,null);
+        Enunciado enun = new Enunciado(null, null, null, null);
         System.out.println("Introduzca la descripción");
         enun.setDescripcion(Util.introducirCadena());
         System.out.println("Introduzca la descripción");
@@ -60,17 +61,21 @@ public class ViewImplementation implements View{
     }
 
     @Override
-    public void mostrarEnunciado(Enunciado enunciado) {
-        System.out.println("ID");
-        System.out.println(enunciado.getId());
-        System.out.println("Descripcion");
-        System.out.println(enunciado.getDescripcion());
-        System.out.println("Nivel");
-        System.out.println(enunciado.getNivel());
-        System.out.println("Disponible");
-        System.out.println(enunciado.getDisponible());
-        System.out.println("Ruta");
-        System.out.println(enunciado.getRuta());
+    public void mostrarEnunciado(ArrayList<Enunciado> enunciados) {
+
+        for (Enunciado enunciado : enunciados) {
+            System.out.println("ID");
+            System.out.println(enunciado.getId());
+            System.out.println("Descripcion");
+            System.out.println(enunciado.getDescripcion());
+            System.out.println("Nivel");
+            System.out.println(enunciado.getNivel());
+            System.out.println("Disponible");
+            System.out.println(enunciado.getDisponible());
+            System.out.println("Ruta");
+            System.out.println(enunciado.getRuta());
+        }
+
     }
 
     @Override
@@ -84,21 +89,21 @@ public class ViewImplementation implements View{
         System.out.println("Curso");
         System.out.println(conv.getCurso());
     }
-    
+
     @Override
-    public Integer buscarEnunciado(){
-        System.out.println("Introduzca el id delenuncaido que desee busacar");
+    public Integer buscarEnunciado() {
+        System.out.println("Introduzca el id del enuncaido que desee busacar");
         return Util.leerInt();
     }
 
     @Override
-    public String buscarConvocatoria(){
+    public String buscarConvocatoria() {
         System.out.println("Introduzca el nombre de la convocatoria que desee buscar");
         return Util.introducirCadena();
     }
 
     @Override
-    public Integer buscarUnidad(){
+    public Integer buscarUnidad() {
         System.out.println("Introduzca el id de la unidad que desea buscar:");
         return Util.leerInt();
     }
@@ -108,9 +113,9 @@ public class ViewImplementation implements View{
         System.out.println("\n\t1. Crear UD."
                 + "\n\t2. Crear Convocatoria."
                 + "\n\t3. Crear Enunciado."
-                + "\n\t4. Consultar Enunciados."//QUE TENGAN UNA UD EN CONCRETO
-                + "\n\t5. Consultar Convocatoria."//SEGUN UN ENUNCIADO
-                + "\n\t6. Visualizar Enunciado."//DOCUMENTO
+                + "\n\t4. Consultar Enunciados."// QUE TENGAN UNA UD EN CONCRETO
+                + "\n\t5. Consultar Convocatoria."// SEGUN UN ENUNCIADO
+                + "\n\t6. Visualizar Enunciado."// DOCUMENTO
                 + "\n\t7. Exit.");
         return Util.leerInt("Introduce un número del 1 al 7: ", 1, 7);
     }

@@ -5,6 +5,8 @@
  */
 package view;
 
+import java.util.ArrayList;
+
 import model.ConvocatoriaExamen;
 import model.Enunciado;
 import model.UnidadDidactica;
@@ -19,7 +21,7 @@ public interface View {
     public ConvocatoriaExamen crearConvocatoria();
     public Enunciado crearEnunciado();
     
-    public void mostrarEnunciado(Enunciado enunciado);
+    public void mostrarEnunciado(ArrayList<Enunciado> enunciados);
     public void mostrarConvocatoria(ConvocatoriaExamen conv);
     
     public Integer buscarEnunciado();

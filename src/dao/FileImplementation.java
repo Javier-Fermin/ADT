@@ -12,9 +12,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import model.ConvocatoriaExamen;
 import model.Enunciado;
@@ -24,7 +23,7 @@ import resources.Util;
 
 /**
  *
- * @author javie
+ * @author imanol
  */
 public class FileImplementation implements Dao {
     File fich = new File("Convocatorias.dat");
@@ -37,13 +36,11 @@ public class FileImplementation implements Dao {
 
     @Override
     public void crearConvocatoria(ConvocatoriaExamen conv) {
-        if (fich.exists()) {
+        if (!fich.exists()) {
             try {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fich));
-                for (int i = 0; i < Util.calculoFichero(fich); i++) {
                     oos.writeObject(conv);
                     oos.close();
-                }
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -73,7 +70,7 @@ public class FileImplementation implements Dao {
     }
 
     @Override
-    public Enunciado buscarEnunciado(Integer id) {
+    public ArrayList<Enunciado> buscarEnunciado(Integer id) {
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }

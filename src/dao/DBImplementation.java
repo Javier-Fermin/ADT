@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
@@ -108,16 +109,16 @@ public class DBImplementation implements Dao {
     }
 
     @Override
-    public Enunciado buscarEnunciado(Integer id) {
-        Enunciado enunciado=null;
+    public ArrayList<Enunciado> buscarEnunciado(Integer id) {
+        ArrayList<Enunciado> enunciados=null;
+        Enunciado enunciado = null;
         con = openConnection();
 
         try {
-
             /*
                 Recogemos el enunciado por su id
              */
-            ptmt = con.prepareStatement("SELECT * from Enunciado where id_Enunciado =?;");
+            ptmt = con.prepareStatement("SELECT * FROM enunciado WHERE id in (SELECT id_Enunciado FROM enunciado_ud WHERE id_ud=?);");
             ptmt.setInt(1, id);
             rset = ptmt.executeQuery();
             
@@ -128,6 +129,7 @@ public class DBImplementation implements Dao {
                 enunciado.setNivel(Dificultad.valueOf(rset.getString("nivel")));
                 enunciado.setDisponible(rset.getBoolean("disponible"));
                 enunciado.setRuta(rset.getString("ruta"));
+                enunciados.add(enunciado);
             }
             
 
@@ -143,7 +145,7 @@ public class DBImplementation implements Dao {
         }
         closeConnection(con);
         
-        return enunciado;
+        return enunciados;
     }
 
     @Override

@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.ArrayList;
 import java.util.Set;
 import model.ConvocatoriaExamen;
 import model.Enunciado;
@@ -21,7 +22,7 @@ public interface Dao {
     public void vincularUDsEnunciado(Set <UnidadDidactica> uds);
     public void vincularConvEnunciado(ConvocatoriaExamen conv);
     
-    public Enunciado buscarEnunciado(Integer id);
+    public ArrayList<Enunciado> buscarEnunciado(Integer id);
     public ConvocatoriaExamen buscarConvocatoria(String convocatoria);
     public UnidadDidactica buscarUnidad(Integer id);
 }
