@@ -76,15 +76,15 @@ public class FileImplementation implements Dao {
     }
 
     @Override
-    public ConvocatoriaExamen buscarConvocatoria(String convocatoria) {
-        ConvocatoriaExamen conv = null;
+    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(String convocatoria) {
+        ArrayList<ConvocatoriaExamen> convocatorias = null;
         if(fich.exists()){
             try {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fich));
                 for (int i = 0; i < Util.calculoFichero(fich); i++) {
                     ConvocatoriaExamen aux = (ConvocatoriaExamen) ois.readObject();
                     if(aux.getConvocatoria().equalsIgnoreCase(convocatoria)){
-                        conv = aux;
+                        convocatorias.add(aux);
                     }
                 }
                 ois.close();
@@ -101,7 +101,7 @@ public class FileImplementation implements Dao {
         }else{
             
         }
-        return conv;
+        return convocatorias;
     }
 
     @Override

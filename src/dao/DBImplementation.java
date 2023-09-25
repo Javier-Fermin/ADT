@@ -149,7 +149,7 @@ public class DBImplementation implements Dao {
     }
 
     @Override
-    public ConvocatoriaExamen buscarConvocatoria(String convocatoria) {
+    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(String convocatoria) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
