@@ -35,6 +35,7 @@ public class DBImplementation implements Dao {
      * guarda en la base de datos
      *
      * @param  ud
+     * @throws exceptions.DAOException
      */
     @Override
     public void crearUnidadDidactica(UnidadDidactica ud) throws DAOException{
@@ -71,6 +72,13 @@ public class DBImplementation implements Dao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /***
+     * Metodo que recoge un Enunciado y lo guarda dentro de la base de datos
+     * @param enunciado
+     * @param idUD
+     * @throws DAOException 
+     */
+    
     @Override
     public void crearEnunciado(Enunciado enunciado, Integer idUD) throws DAOException{
         /*
@@ -135,6 +143,7 @@ public class DBImplementation implements Dao {
      *
      * @param id
      * @return Enunciado enunciado
+     * @throws exceptions.DAOException
      */
     @Override
     public Enunciado buscarEnunciado(Integer id) throws DAOException{
@@ -187,6 +196,7 @@ public class DBImplementation implements Dao {
      *
      * @param id
      * @return UnidadDidactica ud
+     * @throws exceptions.DAOException
      */
     
     @Override
@@ -236,6 +246,7 @@ public class DBImplementation implements Dao {
      * database
      *
      * @return Connection conn
+     * @throws exceptions.DAOException
      */
     public Connection openConnection() throws DAOException {
         Connection conn = null;
@@ -254,6 +265,7 @@ public class DBImplementation implements Dao {
      * and the database
      *
      * @param conn
+     * @throws exceptions.DAOException
      */
     public void closeConnection(Connection conn) throws DAOException {
         if (conn != null) {
