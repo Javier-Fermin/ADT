@@ -5,6 +5,7 @@
  */
 package dao;
 
+import exceptions.DAOException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,7 +34,7 @@ public class FileImplementation implements Dao {
     }
 
     @Override
-    public void crearConvocatoria(ConvocatoriaExamen conv) {
+    public void crearConvocatoria(ConvocatoriaExamen conv)  throws DAOException{
         if (fich.exists()) {
             try {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fich));
@@ -43,10 +44,10 @@ public class FileImplementation implements Dao {
                 }
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             }
         } else {
             try {
@@ -55,10 +56,10 @@ public class FileImplementation implements Dao {
                 oos.close();
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             }
         }
     }
@@ -76,7 +77,7 @@ public class FileImplementation implements Dao {
     }
 
     @Override
-    public ConvocatoriaExamen buscarConvocatoria(String convocatoria) {
+    public ConvocatoriaExamen buscarConvocatoria(String convocatoria)  throws DAOException{
         ConvocatoriaExamen conv = null;
         if(fich.exists()){
             try {
@@ -90,16 +91,16 @@ public class FileImplementation implements Dao {
                 ois.close();
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             } catch (ClassNotFoundException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             }
         }else{
-            
+           throw new DAOException("El fichero no existe."); 
         }
         return conv;
     }

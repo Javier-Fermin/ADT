@@ -9,12 +9,12 @@ package exceptions;
  *
  * @author fdeys
  */
-public class EnunciadoExistsException extends Exception{
+public class DAOException extends Exception{
 
-    public EnunciadoExistsException() {
+    public DAOException() {
     }
 
-    public EnunciadoExistsException(String message) {
+    public DAOException(String message) {
         super(message);
     }
     
