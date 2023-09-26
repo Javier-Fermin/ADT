@@ -5,6 +5,7 @@
  */
 package dao;
 
+import exceptions.EnunciadoExistsException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -53,9 +54,10 @@ public class DBImplementation implements Dao {
 
             ptmt.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            //throw new EnunciadoExistsException("El enunciado ya existe en la base de datos.");
         } finally {
             try {
+                ptmt.clearParameters();
                 ptmt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
@@ -98,9 +100,8 @@ public class DBImplementation implements Dao {
             ptmt.setString(4, enunciado.getRuta());
 
             ptmt.executeUpdate();
-            
         } catch (SQLException ex) {
-            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            //throw new UDExistsException("La unidad didactica ya existe en la base de datos.");
         } finally {
             try {
                 rset.close();
@@ -112,6 +113,15 @@ public class DBImplementation implements Dao {
         closeConnection(con);
     }
 
+    /**
+     * buscarEnunciado: Metodo que recoge de la base de datos los atributos de
+     * un enunciado usando como clave de busqueda su id. Estos atributos se
+     * guardan en un objeto Enunciado que mas tarde sera devuelto por el metodo
+     *
+     * @param id
+     * @return Enunciado enunciado
+     */
+    
     /*
      * Busca un enuncaido a partir de un id de unidad didactica y devuelve un arraylist con todos los datos conseguidos
      * @param Integer id
@@ -130,9 +140,9 @@ public class DBImplementation implements Dao {
             ptmt = con.prepareStatement("SELECT * FROM enunciado WHERE id in (SELECT id_Enunciado FROM enunciado_ud WHERE id_ud=?);");
             ptmt.setInt(1, id);
             rset = ptmt.executeQuery();
-            
+
             while (rset.next()) {
-                enunciado=new Enunciado(null,null,null,null);
+                enunciado = new Enunciado(null, null, null, null);
                 enunciado.setId(rset.getInt("id_Enunciado"));
                 enunciado.setDescripcion(rset.getString("descripcion_Enunciado"));
                 enunciado.setNivel(Dificultad.valueOf(rset.getString("nivel")));
@@ -140,10 +150,9 @@ public class DBImplementation implements Dao {
                 enunciado.setRuta(rset.getString("ruta"));
                 enunciados.add(enunciado);
             }
-            
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            //throw new EnunciadoNotFoundException("No se ha encontrado el enunciado.");
         } finally {
             try {
                 rset.close();
@@ -162,6 +171,16 @@ public class DBImplementation implements Dao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+    /**
+     * buscarUnidad: Metodo que recoge de la base de datos los atributos de
+     * una unidad didactica usando como clave de busqueda su id. Estos atributos se
+     * guardan en un objeto UnidadDidactica que mas tarde sera devuelto por el metodo
+     *
+     * @param id
+     * @return UnidadDidactica ud
+     */
+    
     /*
      * Busca una unidad didactica  apartir de una id de UnidadDidactica
      * @param Integer id
@@ -169,8 +188,8 @@ public class DBImplementation implements Dao {
      */
     @Override
     public UnidadDidactica buscarUnidad(Integer id) {
-        UnidadDidactica ud=null;
-        
+        UnidadDidactica ud = null;
+
         con = openConnection();
 
         try {
@@ -181,19 +200,18 @@ public class DBImplementation implements Dao {
             ptmt = con.prepareStatement("SELECT * from UnidadDidactica where id_UD =?;");
             ptmt.setInt(1, id);
             rset = ptmt.executeQuery();
-            
+
             while (rset.next()) {
-                ud=new UnidadDidactica(null,null,null,null);
+                ud = new UnidadDidactica(null, null, null, null);
                 ud.setId(rset.getInt("id_UD"));
                 ud.setAcronimo(rset.getString("nivel"));
                 ud.setTitulo(rset.getString("titulo"));
                 ud.setEvaluacion(rset.getString("evaluacion"));
-                ud.setDescripcion(rset.getString("descripcion_UD"));                
+                ud.setDescripcion(rset.getString("descripcion_UD"));
             }
-            
 
         } catch (SQLException ex) {
-            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            //throw new UDNotFoundException("No se ha encontrado la unidad didactica.");
         } finally {
             try {
                 rset.close();
@@ -204,7 +222,7 @@ public class DBImplementation implements Dao {
         }
         closeConnection(con);
         
-        return ud;
+        return ud;        
     }
 
     /**
@@ -279,4 +297,3 @@ public class DBImplementation implements Dao {
     }
 
 }
-
