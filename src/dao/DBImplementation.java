@@ -5,7 +5,7 @@
  */
 package dao;
 
-import exceptions.EnunciadoExistsException;
+import exceptions.DAOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -38,10 +38,11 @@ public class DBImplementation implements Dao {
      * crearUnidadDidactica: Metodo que recoge un objeto UnidadDidactica y lo
      * guarda en la base de datos
      *
-     * @param UnidadDidactica ud
+     * @param  ud
+     * @throws exceptions.DAOException
      */
     @Override
-    public void crearUnidadDidactica(UnidadDidactica ud) {
+    public void crearUnidadDidactica(UnidadDidactica ud) throws DAOException{
         con = openConnection();
 
         try {
@@ -54,17 +55,17 @@ public class DBImplementation implements Dao {
 
             ptmt.executeUpdate();
         } catch (SQLException ex) {
-            //throw new EnunciadoExistsException("El enunciado ya existe en la base de datos.");
+            throw new DAOException(ex.getMessage());
         } finally {
             try {
                 ptmt.clearParameters();
                 ptmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+               throw new DAOException(ex.getMessage());
             }
         }
         closeConnection(con);
-
+        
     }
 
     @Override
@@ -78,9 +79,10 @@ public class DBImplementation implements Dao {
     /*
      * Recibe un objeto de tipo enunciado y loguarda en la DB
      * @param enunciado
+     * @throws DAOException 
      */
     @Override
-    public void crearEnunciado(Enunciado enunciado) {
+    public void crearEnunciado(Enunciado enunciado) throws DAOException{
         /*
         El metodo deberia recoger un ArrayList de Integers que contenga las ids de las UDs a las que pertenece. O crear un metodo asignarUD.
          */
@@ -101,16 +103,18 @@ public class DBImplementation implements Dao {
 
             ptmt.executeUpdate();
         } catch (SQLException ex) {
-            //throw new UDExistsException("La unidad didactica ya existe en la base de datos.");
+            throw new DAOException(ex.getMessage());
         } finally {
             try {
                 rset.close();
                 ptmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DAOException(ex.getMessage());
             }
         }
         closeConnection(con);
+        
+
     }
 
     /**
@@ -120,6 +124,7 @@ public class DBImplementation implements Dao {
      *
      * @param id
      * @return Enunciado enunciado
+     * @throws exceptions.DAOException
      */
     
     /*
@@ -128,7 +133,7 @@ public class DBImplementation implements Dao {
      * @return Arraylist<Enunciado> Enunciados
      */
     @Override
-    public ArrayList<Enunciado> buscarEnunciado(Integer id) {
+    public ArrayList<Enunciado> buscarEnunciado(Integer id) throws DAOException{
         ArrayList<Enunciado> enunciados=null;
         Enunciado enunciado = null;
         con = openConnection();
@@ -152,13 +157,13 @@ public class DBImplementation implements Dao {
             }
 
         } catch (SQLException ex) {
-            //throw new EnunciadoNotFoundException("No se ha encontrado el enunciado.");
+             throw new DAOException(ex.getMessage());
         } finally {
             try {
                 rset.close();
                 ptmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DAOException(ex.getMessage());
             }
         }
         closeConnection(con);
@@ -179,6 +184,7 @@ public class DBImplementation implements Dao {
      *
      * @param id
      * @return UnidadDidactica ud
+     * @throws exceptions.DAOException
      */
     
     /*
@@ -187,7 +193,7 @@ public class DBImplementation implements Dao {
      * @returns UnidadDidactica ud
      */
     @Override
-    public UnidadDidactica buscarUnidad(Integer id) {
+    public UnidadDidactica buscarUnidad(Integer id) throws DAOException{
         UnidadDidactica ud = null;
 
         con = openConnection();
@@ -211,18 +217,19 @@ public class DBImplementation implements Dao {
             }
 
         } catch (SQLException ex) {
-            //throw new UDNotFoundException("No se ha encontrado la unidad didactica.");
+            throw new DAOException(ex.getMessage());
         } finally {
             try {
                 rset.close();
                 ptmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DAOException(ex.getMessage());
             }
         }
         closeConnection(con);
         
-        return ud;        
+        return ud; 
+                
     }
 
     /**
@@ -232,13 +239,14 @@ public class DBImplementation implements Dao {
      * database
      *
      * @return Connection conn
+     * @throws exceptions.DAOException
      */
-    public Connection openConnection() {
+    public Connection openConnection() throws DAOException {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(ResourceBundle.getBundle("resources.Properties").getString("URL"), ResourceBundle.getBundle("resources.Properties").getString("USER"), ResourceBundle.getBundle("resources.Properties").getString("PASSWORD"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DAOException(e.getMessage());
         }
         return conn;
     }
@@ -250,13 +258,14 @@ public class DBImplementation implements Dao {
      * and the database
      *
      * @param conn
+     * @throws exceptions.DAOException
      */
-    public void closeConnection(Connection conn) {
+    public void closeConnection(Connection conn) throws DAOException {
         if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             }
         }
     }
@@ -266,7 +275,7 @@ public class DBImplementation implements Dao {
      * @param Set<UnidadDidactica> uds
      */
     @Override
-    public void vincularUDsEnunciado(Set<UnidadDidactica> uds) {
+    public void vincularUDsEnunciado(Set<UnidadDidactica> uds) throws DAOException {
         con = openConnection();
         try {
             Integer eId = null;
@@ -286,7 +295,7 @@ public class DBImplementation implements Dao {
             ptmt.close();
             closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(DBImplementation.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DAOException(ex.getMessage());
         }
         
     }

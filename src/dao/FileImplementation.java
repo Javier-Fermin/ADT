@@ -5,6 +5,7 @@
  */
 package dao;
 
+import exceptions.DAOException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,7 +30,7 @@ public class FileImplementation implements Dao {
     File fich = new File("Convocatorias.dat");
 
     @Override
-    public void crearUnidadDidactica(UnidadDidactica ud) {
+    public void crearUnidadDidactica(UnidadDidactica ud) throws DAOException{
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }
@@ -39,7 +40,7 @@ public class FileImplementation implements Dao {
      * @param ConvocatoriaExamen conv
      */
     @Override
-    public void crearConvocatoria(ConvocatoriaExamen conv) {
+    public void crearConvocatoria(ConvocatoriaExamen conv) throws DAOException{
         if (!fich.exists()) {
             try {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fich));
@@ -47,10 +48,10 @@ public class FileImplementation implements Dao {
                     oos.close();
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             }
         } else {
             try {
@@ -59,22 +60,22 @@ public class FileImplementation implements Dao {
                 oos.close();
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             }
         }
     }
 
     @Override
-    public void crearEnunciado(Enunciado enunciado) {
+    public void crearEnunciado(Enunciado enunciado) throws DAOException{
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }
 
     @Override
-    public ArrayList<Enunciado> buscarEnunciado(Integer id) {
+    public ArrayList<Enunciado> buscarEnunciado(Integer id) throws DAOException{
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }
@@ -85,7 +86,7 @@ public class FileImplementation implements Dao {
      * @return ArrayList<ConvocatoriaExamen> convocatorias
      */
     @Override
-    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(Integer convocatoria) {
+    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(Integer convocatoria) throws DAOException{
         ArrayList<ConvocatoriaExamen> convocatorias = null;
         if(fich.exists()){
             try {
@@ -99,28 +100,28 @@ public class FileImplementation implements Dao {
                 ois.close();
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             } catch (ClassNotFoundException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             }
         }else{
-            
+           throw new DAOException("El fichero no existe."); 
         }
         return convocatorias;
     }
 
     @Override
-    public UnidadDidactica buscarUnidad(Integer id) {
+    public UnidadDidactica buscarUnidad(Integer id) throws DAOException{
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }
 
     @Override
-    public void vincularUDsEnunciado(Set<UnidadDidactica> uds) {
+    public void vincularUDsEnunciado(Set<UnidadDidactica> uds) throws DAOException{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     /*
@@ -128,7 +129,7 @@ public class FileImplementation implements Dao {
      * @param onvocatoriaExamen conv
      */
     @Override
-    public void vincularConvEnunciado(ConvocatoriaExamen conv) {
+    public void vincularConvEnunciado(ConvocatoriaExamen conv) throws DAOException{
         File fichAux = new File("fichAux.dat");
         if(fich.exists()){
             try {

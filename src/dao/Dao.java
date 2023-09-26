@@ -7,6 +7,7 @@ package dao;
 
 import java.util.ArrayList;
 import java.util.Set;
+import exceptions.DAOException;
 import model.ConvocatoriaExamen;
 import model.Enunciado;
 import model.UnidadDidactica;
@@ -16,13 +17,13 @@ import model.UnidadDidactica;
  * @author javie
  */
 public interface Dao {
-    public void crearUnidadDidactica(UnidadDidactica ud);
-    public void crearConvocatoria(ConvocatoriaExamen conv);
-    public void crearEnunciado(Enunciado enunciado);
-    public void vincularUDsEnunciado(Set <UnidadDidactica> uds);
-    public void vincularConvEnunciado(ConvocatoriaExamen conv);
+    public void crearUnidadDidactica(UnidadDidactica ud) throws DAOException;
+    public void crearConvocatoria(ConvocatoriaExamen conv)throws DAOException;
+    public void crearEnunciado(Enunciado enunciado)throws DAOException;
+    public void vincularUDsEnunciado(Set <UnidadDidactica> uds) throws DAOException;
+    public void vincularConvEnunciado(ConvocatoriaExamen conv) throws DAOException;
     
-    public ArrayList<Enunciado> buscarEnunciado(Integer id);
-    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(Integer convocatoria);
-    public UnidadDidactica buscarUnidad(Integer id);
+    public ArrayList<Enunciado> buscarEnunciado(Integer id) throws DAOException;
+    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(Integer convocatoria) throws DAOException;
+    public UnidadDidactica buscarUnidad(Integer id) throws DAOException;
 }
