@@ -6,6 +6,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import model.ConvocatoriaExamen;
 import model.Dificultad;
@@ -52,7 +53,7 @@ public class ViewImplementation implements View {
         Enunciado enun = new Enunciado(null, null, null, null);
         System.out.println("Introduzca la descripción");
         enun.setDescripcion(Util.introducirCadena());
-        System.out.println("Introduzca la descripción");
+        System.out.println("Introduzca la dificultad (ALTA, MEDIA, BAJA)");
         enun.setNivel(Dificultad.valueOf(Util.introducirCadena()));
         enun.setDisponible(Util.esBoolean("Esta disponible el enunciado?"));
         System.out.println("Introduzca el ruta");
@@ -61,8 +62,7 @@ public class ViewImplementation implements View {
     }
 
     @Override
-    public void mostrarEnunciado(ArrayList<Enunciado> enunciados) {
-
+    public void mostrarEnunciado(Set<Enunciado> enunciados) {
         for (Enunciado enunciado : enunciados) {
             System.out.println("ID");
             System.out.println(enunciado.getId());
@@ -79,15 +79,17 @@ public class ViewImplementation implements View {
     }
 
     @Override
-    public void mostrarConvocatoria(ConvocatoriaExamen conv) {
-        System.out.println("Convocatoria");
-        System.out.println(conv.getConvocatoria());
-        System.out.println("Descripcion");
-        System.out.println(conv.getDescipcion());
-        System.out.println("Fecha");
-        System.out.println(conv.getFecha());
-        System.out.println("Curso");
-        System.out.println(conv.getCurso());
+    public void mostrarConvocatoria(Set<ConvocatoriaExamen> convs) {
+        for(ConvocatoriaExamen conv:convs){
+            System.out.println("Convocatoria");
+            System.out.println(conv.getConvocatoria());
+            System.out.println("Descripcion");
+            System.out.println(conv.getDescipcion());
+            System.out.println("Fecha");
+            System.out.println(conv.getFecha());
+            System.out.println("Curso");
+            System.out.println(conv.getCurso());
+        }
     }
 
     @Override
@@ -116,7 +118,13 @@ public class ViewImplementation implements View {
                 + "\n\t4. Consultar Enunciados."// QUE TENGAN UNA UD EN CONCRETO
                 + "\n\t5. Consultar Convocatoria."// SEGUN UN ENUNCIADO
                 + "\n\t6. Visualizar Enunciado."// DOCUMENTO
-                + "\n\t7. Exit.");
+                + "\n\t7. Vincular un enunciado a una convocatoria"
+                + "\n\t8. Exit.");
         return Util.leerInt("Introduce un número del 1 al 7: ", 1, 7);
+    }
+
+    @Override
+    public void mostrarException(String exMessage) {
+        System.out.println(exMessage);
     }
 }

@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author javie
  */
-public class Enunciado {
+public class Enunciado implements Serializable{
     private Integer id;
     private String descripcion;
     private Dificultad nivel;

@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
@@ -106,7 +107,6 @@ public class DBImplementation implements Dao {
             throw new DAOException(ex.getMessage());
         } finally {
             try {
-                rset.close();
                 ptmt.close();
             } catch (SQLException ex) {
                 throw new DAOException(ex.getMessage());
@@ -133,8 +133,8 @@ public class DBImplementation implements Dao {
      * @return Arraylist<Enunciado> Enunciados
      */
     @Override
-    public ArrayList<Enunciado> buscarEnunciado(Integer id) throws DAOException{
-        ArrayList<Enunciado> enunciados=null;
+    public Set<Enunciado> buscarEnunciado(Integer id,Integer idE) throws DAOException{
+        Set<Enunciado> enunciados=new HashSet<Enunciado>();
         Enunciado enunciado = null;
         con = openConnection();
 
@@ -142,8 +142,14 @@ public class DBImplementation implements Dao {
             /*
                 Recogemos el enunciado por su id
              */
-            ptmt = con.prepareStatement("SELECT * FROM enunciado WHERE id in (SELECT id_Enunciado FROM enunciado_ud WHERE id_ud=?);");
-            ptmt.setInt(1, id);
+            if (idE==null){
+                ptmt = con.prepareStatement("SELECT * FROM enunciado WHERE id_Enunciado in (SELECT id_Enunciado FROM enunciado_ud WHERE id_ud=?);");
+                ptmt.setInt(1, id);
+            }else{
+                ptmt = con.prepareStatement("SELECT * FROM enunciado WHERE id=?;");
+                ptmt.setInt(1, idE);
+            }
+            
             rset = ptmt.executeQuery();
 
             while (rset.next()) {
@@ -172,7 +178,7 @@ public class DBImplementation implements Dao {
     }
 
     @Override
-    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(Integer convocatoria) {
+    public Set<ConvocatoriaExamen> buscarConvocatoria(String convocatoria,Integer idE) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -275,19 +281,19 @@ public class DBImplementation implements Dao {
      * @param Set<UnidadDidactica> uds
      */
     @Override
-    public void vincularUDsEnunciado(Set<UnidadDidactica> uds) throws DAOException {
+    public void vincularUDsEnunciado(Set<Integer> uds) throws DAOException {
         con = openConnection();
         try {
             Integer eId = null;
-            ptmt = con.prepareStatement("SELECT * from Enunciado where id_Enunciado =(SELECT max(id) FROM Enunciado);");
+            ptmt = con.prepareStatement("SELECT * from Enunciado where id_Enunciado =(SELECT max(id_Enunciado) FROM Enunciado);");
             rset = ptmt.executeQuery();
             while (rset.next()) {
                 eId = rset.getInt("id_Enunciado");
             }
-            for (UnidadDidactica ud : uds) {
+            for (Integer i : uds) {
                 ptmt = con.prepareStatement("INSERT INTO Enunciado_UD VALUES (?,?)");
                 ptmt.setInt(1, eId);
-                ptmt.setInt(2, ud.getId());
+                ptmt.setInt(2, i);
 
                 ptmt.executeUpdate();
             }

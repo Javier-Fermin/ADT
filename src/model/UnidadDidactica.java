@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author javie
  */
-public class UnidadDidactica {
+public class UnidadDidactica implements Serializable{
     private Integer id;
     private String acronimo;
     private String titulo;

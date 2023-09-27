@@ -5,13 +5,14 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author javie
  */
-public class ConvocatoriaExamen {
+public class ConvocatoriaExamen implements Serializable{
     private String convocatoria;
     private String descipcion;
     private LocalDate fecha;

@@ -6,6 +6,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import model.ConvocatoriaExamen;
 import model.Enunciado;
@@ -17,14 +18,17 @@ import model.UnidadDidactica;
  */
 public interface View {
     public Integer menu();
+    
     public UnidadDidactica crearUnidadDidactica();
     public ConvocatoriaExamen crearConvocatoria();
     public Enunciado crearEnunciado();
     
-    public void mostrarEnunciado(ArrayList<Enunciado> enunciados);
-    public void mostrarConvocatoria(ConvocatoriaExamen conv);
+    public void mostrarEnunciado(Set<Enunciado> enunciados);
+    public void mostrarConvocatoria(Set<ConvocatoriaExamen> convs);
     
     public Integer buscarEnunciado();
     public String buscarConvocatoria();
     public Integer buscarUnidad();
+    
+    public void mostrarException(String exMessage);
 }

@@ -5,6 +5,10 @@
  */
 package adt;
 
+import businessLogic.BusinessLogic;
+import dao.DaoFactory;
+import view.ViewFactory;
+
 /**
  *
  * @author javie
@@ -16,6 +20,8 @@ public class ADT {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        BusinessLogic bl = new BusinessLogic(ViewFactory.getView(), DaoFactory.getDao("File"), DaoFactory.getDao("DB"));
+        bl.menu();
     }
     
 }

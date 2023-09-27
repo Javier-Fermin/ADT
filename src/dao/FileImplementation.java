@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import model.ConvocatoriaExamen;
@@ -75,7 +76,7 @@ public class FileImplementation implements Dao {
     }
 
     @Override
-    public ArrayList<Enunciado> buscarEnunciado(Integer id) throws DAOException{
+    public Set<Enunciado> buscarEnunciado(Integer id,Integer idE) throws DAOException{
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }
@@ -86,30 +87,58 @@ public class FileImplementation implements Dao {
      * @return ArrayList<ConvocatoriaExamen> convocatorias
      */
     @Override
-    public ArrayList<ConvocatoriaExamen> buscarConvocatoria(Integer convocatoria) throws DAOException{
-        ArrayList<ConvocatoriaExamen> convocatorias = null;
-        if(fich.exists()){
-            try {
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fich));
-                for (int i = 0; i < Util.calculoFichero(fich); i++) {
-                    ConvocatoriaExamen aux = (ConvocatoriaExamen) ois.readObject();
-                    if(aux.getIdEnunciado() == convocatoria){
-                        convocatorias.add(aux);
+    public Set<ConvocatoriaExamen> buscarConvocatoria(String convocatoria,Integer idE) throws DAOException{
+        Set<ConvocatoriaExamen> convocatorias = new HashSet<ConvocatoriaExamen>();
+        if(idE==null){
+            if(fich.exists()){
+                Integer num = Util.calculoFichero(fich);
+                try {
+                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fich));
+                    for (int i = 0; i < num; i++) {
+                        ConvocatoriaExamen aux = (ConvocatoriaExamen) ois.readObject();
+                        if(aux.getConvocatoria().equalsIgnoreCase(convocatoria)){
+                            convocatorias.add(aux);
+                        }
                     }
+                    ois.close();
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    throw new DAOException(e.getMessage());
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    throw new DAOException(e.getMessage());
+                } catch (ClassNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    throw new DAOException(e.getMessage());
                 }
-                ois.close();
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                throw new DAOException(e.getMessage());
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                throw new DAOException(e.getMessage());
-            } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                throw new DAOException(e.getMessage());
+            }else{
+               throw new DAOException("El fichero no existe."); 
             }
         }else{
-           throw new DAOException("El fichero no existe."); 
+            if(fich.exists()){
+                Integer num = Util.calculoFichero(fich);
+                try {
+                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fich));
+                    for (int i = 0; i < num; i++) {
+                        ConvocatoriaExamen aux = (ConvocatoriaExamen) ois.readObject();
+                        if(aux.getIdEnunciado().equals(idE)){
+                            convocatorias.add(aux);
+                        }
+                    }
+                    ois.close();
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    throw new DAOException(e.getMessage());
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    throw new DAOException(e.getMessage());
+                } catch (ClassNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    throw new DAOException(e.getMessage());
+                }
+            }else{
+               throw new DAOException("El fichero no existe."); 
+            }
         }
         return convocatorias;
     }
@@ -121,7 +150,7 @@ public class FileImplementation implements Dao {
     }
 
     @Override
-    public void vincularUDsEnunciado(Set<UnidadDidactica> uds) throws DAOException{
+    public void vincularUDsEnunciado(Set<Integer> uds) throws DAOException{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     /*
@@ -137,22 +166,24 @@ public class FileImplementation implements Dao {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichAux));
                 for (int i = 0; i < Util.calculoFichero(fich); i++) {
                     ConvocatoriaExamen aux = (ConvocatoriaExamen) ois.readObject();
-                    if(!aux.getConvocatoria().equalsIgnoreCase(conv.getConvocatoria())){
-                        conv = aux;
+                    if(aux.getConvocatoria().equalsIgnoreCase(conv.getConvocatoria())){
+                        aux = conv;
                     }
-                    oos.writeObject(conv);
+                    oos.writeObject(aux);
                 }
                 oos.close();
                 ois.close();
+                fich.delete();
+                fichAux.renameTo(fich);   
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             } catch (ClassNotFoundException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new DAOException(e.getMessage());
             }
         }
     }
