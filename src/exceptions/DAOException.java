@@ -6,8 +6,10 @@
 package exceptions;
 
 /**
- *
- * @author fdeys
+ * This is the Exception that is used along the program to manage all 
+ * the exceptions that could occur during the execution of the app
+ * 
+ * @author Fran
  */
 public class DAOException extends Exception{
 

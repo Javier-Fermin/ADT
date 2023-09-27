@@ -13,10 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import model.ConvocatoriaExamen;
 import model.Enunciado;
 import model.UnidadDidactica;
@@ -24,21 +22,22 @@ import resources.MyObjectOutputStream;
 import resources.Util;
 
 /**
- *
- * @author imanol
+ * This is a class that implements the Dao interface
+ * 
+ * @author Imanol, Javier
  */
 public class FileImplementation implements Dao {
     File fich = new File("Convocatorias.dat");
 
     @Override
     public void crearUnidadDidactica(UnidadDidactica ud) throws DAOException{
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+        throw new DAOException("Not supported yet.");
     }
 
-    /*
+    /**
      * Recibe una convocatoria y la guarda en un fichero
-     * @param ConvocatoriaExamen conv
+     * @param conv
+     * @throws exceptions.DAOException
      */
     @Override
     public void crearConvocatoria(ConvocatoriaExamen conv) throws DAOException{
@@ -71,20 +70,19 @@ public class FileImplementation implements Dao {
 
     @Override
     public void crearEnunciado(Enunciado enunciado) throws DAOException{
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+        throw new DAOException("Not supported yet.");
     }
 
     @Override
     public Set<Enunciado> buscarEnunciado(Integer id,Integer idE) throws DAOException{
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+        throw new DAOException("Not supported yet.");
     }
 
-    /*
+    /**
      * Recibe un id de enunciado y devuelve todas las convocatorias asociadas a esa unidad
-     * @param Integer convocatoria
-     * @return ArrayList<ConvocatoriaExamen> convocatorias
+     * @param convocatoria
+     * @return convocatorias
+     * @throws exceptions.DAOException
      */
     @Override
     public Set<ConvocatoriaExamen> buscarConvocatoria(String convocatoria,Integer idE) throws DAOException{
@@ -104,10 +102,7 @@ public class FileImplementation implements Dao {
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
                     throw new DAOException(e.getMessage());
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    throw new DAOException(e.getMessage());
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     // TODO Auto-generated catch block
                     throw new DAOException(e.getMessage());
                 }
@@ -129,10 +124,7 @@ public class FileImplementation implements Dao {
                 } catch (FileNotFoundException e) {
                     // TODO Auto-generated catch block
                     throw new DAOException(e.getMessage());
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    throw new DAOException(e.getMessage());
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     // TODO Auto-generated catch block
                     throw new DAOException(e.getMessage());
                 }
@@ -145,17 +137,19 @@ public class FileImplementation implements Dao {
 
     @Override
     public UnidadDidactica buscarUnidad(Integer id) throws DAOException{
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+        throw new DAOException("Not supported yet.");
     }
 
     @Override
     public void vincularUDsEnunciado(Set<Integer> uds) throws DAOException{
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new DAOException("Not supported yet.");
     }
-    /*
-     * Vincula convocatorias con enunciados
-     * @param onvocatoriaExamen conv
+    
+    /**
+     * Save a Convocatoria that has been bind to a Enunciado
+     * 
+     * @param conv The Convocatoria with the changes made
+     * @throws exceptions.DAOException
      */
     @Override
     public void vincularConvEnunciado(ConvocatoriaExamen conv) throws DAOException{
@@ -166,6 +160,8 @@ public class FileImplementation implements Dao {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichAux));
                 for (int i = 0; i < Util.calculoFichero(fich); i++) {
                     ConvocatoriaExamen aux = (ConvocatoriaExamen) ois.readObject();
+                    //If we found the convocatoria that we want to save, then we
+                    //replace the old one with the new that has been changed
                     if(aux.getConvocatoria().equalsIgnoreCase(conv.getConvocatoria())){
                         aux = conv;
                     }
@@ -173,18 +169,16 @@ public class FileImplementation implements Dao {
                 }
                 oos.close();
                 ois.close();
+                //Here we delete the old file and rename the aux file
                 fich.delete();
                 fichAux.renameTo(fich);   
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 throw new DAOException(e.getMessage());
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 // TODO Auto-generated catch block
                 throw new DAOException(e.getMessage());
-            } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                throw new DAOException(e.getMessage());
-            }
+            } 
         }
     }
 

@@ -23,8 +23,9 @@ import model.Enunciado;
 import model.UnidadDidactica;
 
 /**
- *
- * @author javie, imanol, fran
+ * The DB implementation of the Dao 
+ * 
+ * @author Javier, Imanol, Fran
  */
 public class DBImplementation implements Dao {
 
@@ -70,14 +71,14 @@ public class DBImplementation implements Dao {
     }
 
     @Override
-    public void crearConvocatoria(ConvocatoriaExamen conv) {
+    public void crearConvocatoria(ConvocatoriaExamen conv) throws DAOException{
         /*
         Este metodo es vacio, ya que no se guardan convocatorias en la BD
          */
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new DAOException("Not supported yet.");
     }
 
-    /*
+    /**
      * Recibe un objeto de tipo enunciado y loguarda en la DB
      * @param enunciado
      * @throws DAOException 
@@ -178,8 +179,8 @@ public class DBImplementation implements Dao {
     }
 
     @Override
-    public Set<ConvocatoriaExamen> buscarConvocatoria(String convocatoria,Integer idE) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Set<ConvocatoriaExamen> buscarConvocatoria(String convocatoria,Integer idE) throws DAOException{
+        throw new DAOException("Not supported yet.");
     }
 
     
@@ -191,12 +192,6 @@ public class DBImplementation implements Dao {
      * @param id
      * @return UnidadDidactica ud
      * @throws exceptions.DAOException
-     */
-    
-    /*
-     * Busca una unidad didactica  apartir de una id de UnidadDidactica
-     * @param Integer id
-     * @returns UnidadDidactica ud
      */
     @Override
     public UnidadDidactica buscarUnidad(Integer id) throws DAOException{
@@ -276,9 +271,10 @@ public class DBImplementation implements Dao {
         }
     }
 
-    /*
+    /**
      * Vincula unidades con enunciados en la base de datos en una tabla de relacion N:M
-     * @param Set<UnidadDidactica> uds
+     * @param uds The ids of the UnidadesDidacticas to link with the last Enunciado
+     * @throws DAOException 
      */
     @Override
     public void vincularUDsEnunciado(Set<Integer> uds) throws DAOException {
@@ -307,8 +303,8 @@ public class DBImplementation implements Dao {
     }
 
     @Override
-    public void vincularConvEnunciado(ConvocatoriaExamen conv) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void vincularConvEnunciado(ConvocatoriaExamen conv) throws DAOException{
+        throw new DAOException("Not supported yet.");
     }
 
 }

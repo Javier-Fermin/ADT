@@ -6,10 +6,16 @@
 package view;
 
 /**
- *
- * @author javie
+ * This is a factory for the View related objects
+ * 
+ * @author Javier, Imanol, Fran
  */
 public class ViewFactory {
+    /**
+     * This method returns a view implementation
+     * 
+     * @return The implementation
+     */
     public static View getView(){
         return new ViewImplementation();
     }

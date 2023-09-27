@@ -10,8 +10,9 @@ import dao.DaoFactory;
 import view.ViewFactory;
 
 /**
- *
- * @author javie
+ * This is the main application for the ADT challenge 0
+ * 
+ * @author Javier, Imanol, Fran
  */
 public class ADT {
 

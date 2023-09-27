@@ -15,11 +15,18 @@ import model.UnidadDidactica;
 import resources.Util;
 
 /**
- *
- * @author javie
+ * This is a view implementation
+ * 
+ * @author Javier, Imanol
  */
 public class ViewImplementation implements View {
 
+    /**
+     * This method gets data from the user to then create an UnidadDidactica
+     * and return it
+     * 
+     * @return the UnidadDidactica with the user data
+     */
     @Override
     public UnidadDidactica crearUnidadDidactica() {
         UnidadDidactica ud = new UnidadDidactica(null, null, null, null);
@@ -34,6 +41,12 @@ public class ViewImplementation implements View {
         return ud;
     }
 
+    /**
+     * This method gets data from the user to then create an Convocatoria
+     * and return it
+     * 
+     * @return the Convocatoria with the user data
+     */
     @Override
     public ConvocatoriaExamen crearConvocatoria() {
         ConvocatoriaExamen conv = new ConvocatoriaExamen(null, null, null, null, null);
@@ -48,6 +61,12 @@ public class ViewImplementation implements View {
         return conv;
     }
 
+    /**
+     * This method gets data from the user to then create an Enunciado
+     * and return it
+     * 
+     * @return the Enunciado with the user data
+     */
     @Override
     public Enunciado crearEnunciado() {
         Enunciado enun = new Enunciado(null, null, null, null);
@@ -61,6 +80,11 @@ public class ViewImplementation implements View {
         return enun;
     }
 
+    /**
+     * This method shows the data of the Enunciados recieved
+     * 
+     * @param enunciados the Enunciados to be shown
+     */
     @Override
     public void mostrarEnunciado(Set<Enunciado> enunciados) {
         for (Enunciado enunciado : enunciados) {
@@ -75,9 +99,13 @@ public class ViewImplementation implements View {
             System.out.println("Ruta");
             System.out.println(enunciado.getRuta());
         }
-
     }
 
+    /**
+     * This method shows the data of the Convocatorias recieved
+     * 
+     * @param convs the Convocatorias to be shown
+     */
     @Override
     public void mostrarConvocatoria(Set<ConvocatoriaExamen> convs) {
         for(ConvocatoriaExamen conv:convs){
@@ -92,37 +120,65 @@ public class ViewImplementation implements View {
         }
     }
 
+    /**
+     * This method is in charge of asking the user for an id of an Enunciado
+     * and then it is returned
+     * 
+     * @return the desired id
+     */
     @Override
     public Integer buscarEnunciado() {
-        System.out.println("Introduzca el id del enuncaido que desee busacar");
+        System.out.println("Introduzca el id del enunciado que desee buscar");
         return Util.leerInt();
     }
-
+    
+    /**
+     * This method is in charge of asking the user for an convocatoria 
+     * of a Convocatoria and then it is returned
+     * 
+     * @return the desired convocatoria
+     */
     @Override
     public String buscarConvocatoria() {
         System.out.println("Introduzca el nombre de la convocatoria que desee buscar");
         return Util.introducirCadena();
     }
 
+    /**
+     * This method is in charge of asking the user for an id of a UnidadDidactica
+     * and then it is returned
+     * 
+     * @return the desired id
+     */
     @Override
     public Integer buscarUnidad() {
         System.out.println("Introduzca el id de la unidad que desea buscar:");
         return Util.leerInt();
     }
 
+    /**
+     * This method shows the user a menu and then returns the user option
+     * 
+     * @return the selected option
+     */
     @Override
     public Integer menu() {
         System.out.println("\n\t1. Crear UD."
                 + "\n\t2. Crear Convocatoria."
                 + "\n\t3. Crear Enunciado."
-                + "\n\t4. Consultar Enunciados."// QUE TENGAN UNA UD EN CONCRETO
-                + "\n\t5. Consultar Convocatoria."// SEGUN UN ENUNCIADO
-                + "\n\t6. Visualizar Enunciado."// DOCUMENTO
+                + "\n\t4. Consultar Enunciados."
+                + "\n\t5. Consultar Convocatoria."
+                + "\n\t6. Visualizar Enunciado."
                 + "\n\t7. Vincular un enunciado a una convocatoria"
                 + "\n\t8. Exit.");
-        return Util.leerInt("Introduce un número del 1 al 7: ", 1, 7);
+        return Util.leerInt("Introduce un número del 1 al 8: ", 1, 8);
     }
 
+    /**
+     * This methods shows the user an exception message
+     * 
+     * @param exMessage the message to be shown
+     */
     @Override
     public void mostrarException(String exMessage) {
         System.out.println(exMessage);
