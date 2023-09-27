@@ -181,6 +181,6 @@ public class ViewImplementation implements View {
      */
     @Override
     public void mostrarException(String exMessage) {
-        System.out.println(exMessage);
+        System.err.println(exMessage);
     }
 }

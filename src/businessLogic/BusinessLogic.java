@@ -111,7 +111,7 @@ public class BusinessLogic {
         try {
             //We ask for an UnidadDidactica and then we look for the Enunciados
             //that got it and finally we show the Enunciados we got
-            view.mostrarEnunciado(daoDB.buscarEnunciado(view.buscarUnidad(), null));;
+            view.mostrarEnunciado(daoDB.buscarEnunciado(view.buscarUnidad(), null));
         } catch (DAOException ex) {
             view.mostrarException(ex.getMessage());
         }
@@ -122,6 +122,7 @@ public class BusinessLogic {
      */
     public void consultarConvocatorias(){
         try {
+            daoFile.checkConvocatorias();
             Set<ConvocatoriaExamen> conv = new HashSet<ConvocatoriaExamen>();
             //We ask for the id of the desired Enuncidao, then we look for
             //a Convocatoria that has that id assigned
@@ -161,6 +162,9 @@ public class BusinessLogic {
      */
     public void crearEnunciado(){
         try {
+            //Before star we check if there is at least one Convocatoria and One UnidadDidactica
+            daoDB.checkUnidadesDidacticas();
+            daoFile.checkConvocatorias();
             //First we create the Enunciado
             Enunciado enun = view.crearEnunciado();
             daoDB.crearEnunciado(enun);
@@ -168,7 +172,12 @@ public class BusinessLogic {
             //Then we start gathering the UnidadesDidacticas to then assing them to the Enunciado
             Set<Integer> ids = new HashSet<Integer>();
             while (!salir){
-                ids.add(view.buscarUnidad());
+                Integer id = view.buscarUnidad();
+                if(!ids.contains(id)){
+                    ids.add(id);
+                }else{
+                    view.mostrarException("Ya ha añadido esta unidad");
+                }
                 salir = Util.esBoolean("Desea dejar de añadir unidades didacticas al enunciado?");
             }
             daoDB.vincularUDsEnunciado(ids);

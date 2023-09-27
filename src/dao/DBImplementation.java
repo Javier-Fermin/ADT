@@ -11,7 +11,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -120,21 +119,17 @@ public class DBImplementation implements Dao {
 
     /**
      * buscarEnunciado: Metodo que recoge de la base de datos los atributos de
-     * un enunciado usando como clave de busqueda su id. Estos atributos se
-     * guardan en un objeto Enunciado que mas tarde sera devuelto por el metodo
+     * un enunciado usando como clave de busqueda su id o bien la id de 
+     * UnidadDidactica. Los Enunciados que cumplan los requisitos de busqueda
+     * son posteriormente devueltos en un Set.
      *
-     * @param id
+     * @param idU id de la UnidadDidactica
+     * @param idE id del Enunciado
      * @return Enunciado enunciado
      * @throws exceptions.DAOException
      */
-    
-    /*
-     * Busca un enuncaido a partir de un id de unidad didactica y devuelve un arraylist con todos los datos conseguidos
-     * @param Integer id
-     * @return Arraylist<Enunciado> Enunciados
-     */
     @Override
-    public Set<Enunciado> buscarEnunciado(Integer id,Integer idE) throws DAOException{
+    public Set<Enunciado> buscarEnunciado(Integer idU,Integer idE) throws DAOException{
         Set<Enunciado> enunciados=new HashSet<Enunciado>();
         Enunciado enunciado = null;
         con = openConnection();
@@ -145,7 +140,7 @@ public class DBImplementation implements Dao {
              */
             if (idE==null){
                 ptmt = con.prepareStatement("SELECT * FROM enunciado WHERE id_Enunciado in (SELECT id_Enunciado FROM enunciado_ud WHERE id_ud=?);");
-                ptmt.setInt(1, id);
+                ptmt.setInt(1, idU);
             }else{
                 ptmt = con.prepareStatement("SELECT * FROM enunciado WHERE id=?;");
                 ptmt.setInt(1, idE);
@@ -305,6 +300,31 @@ public class DBImplementation implements Dao {
     @Override
     public void vincularConvEnunciado(ConvocatoriaExamen conv) throws DAOException{
         throw new DAOException("Not supported yet.");
+    }
+
+    @Override
+    public void checkConvocatorias() throws DAOException {
+        throw new DAOException("Not supported yet.");
+    }
+
+    @Override
+    public void checkUnidadesDidacticas() throws DAOException {
+        con = openConnection();
+        try {
+            ptmt = con.prepareStatement("SELECT * from UnidadDidactica;");
+            rset = ptmt.executeQuery();
+            if (!rset.isBeforeFirst() ) {
+                rset.close();
+                ptmt.close();
+                closeConnection(con);
+                throw new DAOException("No hay ninguna Unidad Didactica, introduza una"); 
+            }
+            rset.close();
+            ptmt.close();
+            closeConnection(con);
+        } catch (SQLException ex) {
+            throw new DAOException(ex.getMessage());
+        }    
     }
 
 }

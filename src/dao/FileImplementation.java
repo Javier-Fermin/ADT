@@ -74,7 +74,7 @@ public class FileImplementation implements Dao {
     }
 
     @Override
-    public Set<Enunciado> buscarEnunciado(Integer id,Integer idE) throws DAOException{
+    public Set<Enunciado> buscarEnunciado(Integer idU,Integer idE) throws DAOException{
         throw new DAOException("Not supported yet.");
     }
 
@@ -132,6 +132,9 @@ public class FileImplementation implements Dao {
                throw new DAOException("El fichero no existe."); 
             }
         }
+        if(convocatorias.isEmpty()){
+            throw new DAOException("No se han encontrado coincidencias");
+        }
         return convocatorias;
     }
 
@@ -180,6 +183,18 @@ public class FileImplementation implements Dao {
                 throw new DAOException(e.getMessage());
             } 
         }
+    }
+
+    @Override
+    public void checkConvocatorias() throws DAOException {
+        if(Util.calculoFichero(fich)==0){
+            throw new DAOException("Aun no hay Convocatorias, introduzca una");
+        }
+    }
+
+    @Override
+    public void checkUnidadesDidacticas() throws DAOException {
+        throw new DAOException("Not supported yet.");
     }
 
 }

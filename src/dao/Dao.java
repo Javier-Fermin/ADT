@@ -97,4 +97,20 @@ public interface Dao {
      * @throws DAOException 
      */
     public UnidadDidactica buscarUnidad(Integer id) throws DAOException;
+    
+    /**
+     * This method checks if there are any Convocatorias stored if there are no
+     * Convocatorias stored it will throw a DAOException
+     * 
+     * @throws DAOException 
+     */
+    public void checkConvocatorias() throws DAOException;
+    
+    /**
+     * This method checks if there are any UnidadesDidacticas stored, if there
+     * are no UnidadesDidacticas stores it will throw a DAOException
+     * 
+     * @throws DAOException 
+     */
+    public void checkUnidadesDidacticas() throws DAOException;
 }
