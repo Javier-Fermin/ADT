@@ -14,8 +14,6 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.ConvocatoriaExamen;
 import model.Dificultad;
 import model.Enunciado;
@@ -142,7 +140,7 @@ public class DBImplementation implements Dao {
                 ptmt = con.prepareStatement("SELECT * FROM enunciado WHERE id_Enunciado in (SELECT id_Enunciado FROM enunciado_ud WHERE id_ud=?);");
                 ptmt.setInt(1, idU);
             }else{
-                ptmt = con.prepareStatement("SELECT * FROM enunciado WHERE id=?;");
+                ptmt = con.prepareStatement("SELECT * FROM enunciado WHERE id_Enunciado=?;");
                 ptmt.setInt(1, idE);
             }
             
@@ -317,7 +315,7 @@ public class DBImplementation implements Dao {
                 rset.close();
                 ptmt.close();
                 closeConnection(con);
-                throw new DAOException("No hay ninguna Unidad Didactica, introduza una"); 
+                throw new DAOException("No hay ninguna Unidad Didactica, introduzca una"); 
             }
             rset.close();
             ptmt.close();

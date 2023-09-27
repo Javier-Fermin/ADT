@@ -95,9 +95,10 @@ public class BusinessLogic {
         if(Desktop.isDesktopSupported()){
             Desktop desktop = Desktop.getDesktop();
             try {
-                desktop.open(new File(""));
-            } catch (IOException ex) {
-                Logger.getLogger(BusinessLogic.class.getName()).log(Level.SEVERE, null, ex);
+                File file = new File(daoDB.buscarEnunciado(null, view.buscarEnunciado()).iterator().next().getRuta());
+                desktop.open(file);
+            } catch (IOException | DAOException ex) {
+                view.mostrarException(ex.getMessage());
             }
         }else{
             System.out.println("not supported");
@@ -173,10 +174,10 @@ public class BusinessLogic {
             Set<Integer> ids = new HashSet<Integer>();
             while (!salir){
                 Integer id = view.buscarUnidad();
-                if(!ids.contains(id)){
+                if(!ids.contains(id) && daoDB.buscarUnidad(id)!=null){
                     ids.add(id);
                 }else{
-                    view.mostrarException("Ya ha añadido esta unidad");
+                    view.mostrarException("Ya ha añadido esta unidad o se ha intentado introducir una unidad inexistente");
                 }
                 salir = Util.esBoolean("Desea dejar de añadir unidades didacticas al enunciado?");
             }
