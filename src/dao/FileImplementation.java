@@ -69,7 +69,7 @@ public class FileImplementation implements Dao {
     }
 
     @Override
-    public void crearEnunciado(Enunciado enunciado) throws DAOException{
+    public Enunciado crearEnunciado(Enunciado enunciado) throws DAOException{
         throw new DAOException("Not supported yet.");
     }
 

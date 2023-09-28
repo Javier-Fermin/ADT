@@ -79,9 +79,10 @@ public class DBImplementation implements Dao {
      * Recibe un objeto de tipo enunciado y loguarda en la DB
      * @param enunciado
      * @throws DAOException 
+     * 
      */
     @Override
-    public void crearEnunciado(Enunciado enunciado) throws DAOException{
+    public Enunciado crearEnunciado(Enunciado enunciado) throws DAOException{
         /*
         El metodo deberia recoger un ArrayList de Integers que contenga las ids de las UDs a las que pertenece. O crear un metodo asignarUD.
          */
@@ -101,6 +102,12 @@ public class DBImplementation implements Dao {
             ptmt.setString(4, enunciado.getRuta());
 
             ptmt.executeUpdate();
+            
+            ptmt = con.prepareStatement("SELECT max(id_Enunciado) FROM Enunciado;");
+            rset = ptmt.executeQuery();
+            while(rset.next()){
+                enunciado.setId(rset.getInt("max(id_Enunciado)"));
+            }
         } catch (SQLException ex) {
             throw new DAOException(ex.getMessage());
         } finally {
@@ -111,6 +118,7 @@ public class DBImplementation implements Dao {
             }
         }
         closeConnection(con);
+        return enunciado;
         
 
     }

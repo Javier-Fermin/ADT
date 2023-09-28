@@ -38,9 +38,10 @@ public interface Dao {
      * This method shall save a Enunciado
      * 
      * @param enunciado The Enunciado to be saved
+     * @return the Enunciado with the id that the database gave it
      * @throws DAOException 
      */
-    public void crearEnunciado(Enunciado enunciado)throws DAOException;
+    public Enunciado crearEnunciado(Enunciado enunciado)throws DAOException;
     
     
     //All the linking related methods
