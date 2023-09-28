@@ -204,7 +204,7 @@ public class DBImplementation implements Dao {
             while (rset.next()) {
                 ud = new UnidadDidactica(null, null, null, null);
                 ud.setId(rset.getInt("id_UD"));
-                ud.setAcronimo(rset.getString("nivel"));
+                ud.setAcronimo(rset.getString("acronimo"));
                 ud.setTitulo(rset.getString("titulo"));
                 ud.setEvaluacion(rset.getString("evaluacion"));
                 ud.setDescripcion(rset.getString("descripcion_UD"));
