@@ -6,8 +6,9 @@
 package model;
 
 /**
- *
- * @author javie
+ * This is an Enum to be used in the Enunciado class
+ * 
+ * @author Javier, Imanol, Fran
  */
 public enum Dificultad {
     ALTA,

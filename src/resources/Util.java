@@ -1,5 +1,6 @@
-package utils;
+package resources;
 
+import exceptions.DAOException;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
@@ -13,7 +14,7 @@ import java.time.format.DateTimeParseException;
 
 
 public class Util {
-	public static int calculoFichero(File fich) {
+	public static int calculoFichero(File fich) throws DAOException{
 		int cont = 0;
 		if (fich.exists()) {
 			FileInputStream fis = null;
@@ -32,14 +33,14 @@ public class Util {
 			} catch (EOFException e1) {
 
 			} catch (Exception e2) {
-				e2.printStackTrace();
+				throw new DAOException(e2.getMessage());
 			}
 
 			try {
 				ois.close();
 				fis.close();
 			} catch (IOException e) {
-				System.out.println("Error al cerrar los flujos");
+				throw new DAOException(e.getMessage());
 
 			}
 		}

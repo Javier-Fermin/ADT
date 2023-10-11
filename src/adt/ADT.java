@@ -5,9 +5,14 @@
  */
 package adt;
 
+import businessLogic.BusinessLogic;
+import dao.DaoFactory;
+import view.ViewFactory;
+
 /**
- *
- * @author javie
+ * This is the main application for the ADT challenge 0
+ * 
+ * @author Javier, Imanol, Fran
  */
 public class ADT {
 
@@ -16,6 +21,8 @@ public class ADT {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        BusinessLogic bl = new BusinessLogic(ViewFactory.getView(), DaoFactory.getDao("File"), DaoFactory.getDao("DB"));
+        bl.menu();
     }
     
 }
